@@ -4,8 +4,6 @@ import Form from "./Form";
 import FormInput from "./FormInput";
 
 export default function SettingsForm({ currentUser }: { currentUser: any }) {
-  console.log(currentUser);
-
   return (
     <Form scroll={true}>
       <FormInput label="name" type="text" defaultValue={currentUser.name}>

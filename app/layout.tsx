@@ -8,6 +8,7 @@ import Loading from "./loading";
 import { CurrentUserProvider } from "@/context/CurrentUserContext";
 import { getCurrentUser } from "@/lib/actions";
 import { Suspense } from "react";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "400" });
 
@@ -28,6 +29,7 @@ export default async function RootLayout({
       <body
         className={`${roboto.className} grid grid-cols-[20vw_80vw] grid-rows-[10vh_90vh] overflow-hidden`}
       >
+        <Toaster position="top-center" />
         <CurrentUserProvider currentUser={currentUser}>
           <Header />
           <Navigation />

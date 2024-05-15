@@ -18,4 +18,66 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .shapes {
+    width: 8rem;
+    height: 8rem;
+    color: #d63637;
+    position: relative;
+    background: radial-gradient(11.2px, currentColor 94%, #0000);
+  }
+
+  .shapes:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(
+          10.08px at bottom right,
+          #0000 94%,
+          currentColor
+        )
+        top left,
+      radial-gradient(10.08px at bottom left, #0000 94%, currentColor) top right,
+      radial-gradient(10.08px at top right, #0000 94%, currentColor) bottom left,
+      radial-gradient(10.08px at top left, #0000 94%, currentColor) bottom right;
+    background-size: 22.4px 22.4px;
+    background-repeat: no-repeat;
+    animation: shapes-77ngqcmd 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+  }
+
+  @keyframes shapes-77ngqcmd {
+    33% {
+      inset: -11.2px;
+      transform: rotate(0deg);
+    }
+
+    66% {
+      inset: -11.2px;
+      transform: rotate(90deg);
+    }
+
+    100% {
+      inset: 0;
+      transform: rotate(90deg);
+    }
+  }
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid inherit;
+  -webkit-text-fill-color: #d63637;
+  -webkit-box-shadow: 0 0 0px 1000px inherit inset;
+  box-shadow: 0 0 0px 1000px inherit inset;
+  transition: background-color 5000s ease-in-out 0s;
+  color: white;
 }

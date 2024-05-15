@@ -17,7 +17,7 @@ export default function FormInput({
         {children}
       </label>
       <input
-        className="w-[70%] bg-[#ecddc5] rounded-md text-[#d63637]"
+        className="w-[70%] bg-[#ecddc5] rounded-md text-[#d63637] autofill:text-[#d63637] autofill:bg-[#ecddc5] "
         type={type}
         id={label}
         name={label}
