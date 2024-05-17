@@ -9,6 +9,7 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { redirect } from "next/navigation";
 import { setCookie } from "@/lib/actions";
 import { useCurrentUser } from "@/context/CurrentUserContext";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
@@ -32,14 +33,18 @@ export default function Login() {
           validatedData.data.email,
           validatedData.data.password
         );
+
         const tokenID = await res?.user.getIdToken();
         setCookie("user", tokenID!);
+        toast.success("Logged in successfully!");
         redirect("/settings");
       }
+
       if (validatedData.error) {
-        validatedData.error.errors.map((error) =>
-          console.log(error.path[0], ":", error.message)
-        );
+        validatedData.error.errors.map((error) => {
+          toast.error(`${error.path[0]}:  ${error.message}`);
+          console.log(error.path[0], ":", error.message);
+        });
       }
     } catch (e) {
       console.log("LOGIN___ERROR___", e);

@@ -8,5 +8,5 @@ export default function Settings() {
   const { currentUser }: any = useCurrentUser();
   if (!currentUser) redirect("/");
 
-  return <SettingsForm currentUser={currentUser} />;
+  return <SettingsForm user={currentUser} />;
 }

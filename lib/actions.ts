@@ -6,11 +6,15 @@ import {
   setDoc,
   doc,
   getDoc,
+  deleteDoc
 } from "firebase/firestore/lite";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
 import { db } from "@/app/firebase/config";
+
+// import { initAdmin } from "@/app/firebase/firebaseAdmin";
+// import admin from "firebase-admin";
 
 export interface UserType {
   name: string;
@@ -26,6 +30,31 @@ export async function getUsers(db: any) {
   const usersList = usersSnapshot.docs.map((doc) => doc.data());
 
   return usersList;
+}
+
+// export async function getUserById(id: string) {
+//   await initAdmin();
+//   const { email }: any = await admin.auth().getUser(id);
+
+//   const userRef = doc(db, "users", email);
+//   const userSnapshot = await getDoc(userRef);
+//   if (userSnapshot.exists()) {
+//     return userSnapshot.data();
+//   } else {
+//     // userSnapshot.data() will be undefined in this case
+//     return null;
+//   }
+// }
+
+export async function getUserByEmail(email: string) {
+  const userRef = doc(db, "users", email);
+  const userSnapshot = await getDoc(userRef);
+  if (userSnapshot.exists()) {
+    return userSnapshot.data();
+  } else {
+    // userSnapshot.data() will be undefined in this case
+    return null;
+  }
 }
 
 export async function createUser(db: any, user: any) {
@@ -101,3 +130,20 @@ export async function getCurrentUser() {
   const currentUser = docSnapshot.data();
   return currentUser;
 }
+
+// async function deleteTargetUser() {
+//   await initAdmin();
+//   const user = await admin.auth().getUser(id);
+//   if (!user) {
+//     return false;
+//   }
+
+//   await admin.auth().deleteUser(id);
+//   const { email }: any = user;
+//   await deleteDoc(doc(db, "users", email));
+
+//   return true;
+// }
+
+export async function deleteUserByEmail(email: string) {
+  await deleteDoc(doc(db, "users", email));}

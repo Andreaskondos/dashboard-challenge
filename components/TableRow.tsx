@@ -1,17 +1,37 @@
 import TableCol from "./TableCol";
 import { ImCog } from "react-icons/im";
 import { IoTrashBinSharp } from "react-icons/io5";
+import Link from "next/link";
+import { DeleteButton } from "./DeleteButton";
+import { deleteUserByEmail } from "@/lib/actions";
+import { initAdmin } from "@/app/firebase/firebaseAdmin";
+import admin from "firebase-admin";
 
 export interface User {
+  id: string;
   name: string;
   photo: string;
   phone: string;
   email: string;
 }
 
-export default function TableRow({ user }: { user: User }) {
+export default async function TableRow({ user }: { user: User }) {
+  const { id, email } = user;
+
+  async function deleteTargetUser() {
+    "use server";
+    await initAdmin();
+    const user = await admin.auth().getUser(id);
+    if (!user) {
+      return null;
+    }
+
+    await admin.auth().deleteUser(id);
+    await deleteUserByEmail(email);
+  }
+
   return (
-    <div className="flex justify-evenly">
+    <div className="px-8 flex justify-evenly">
       <TableCol text={user.name} />
       <TableCol text={user.phone} />
       <TableCol text={user.email} />
@@ -24,8 +44,10 @@ export default function TableRow({ user }: { user: User }) {
       </TableCol>
       <TableCol>
         <div className="flex flex-col gap-2">
-          <ImCog className="hover:text-[#a47485] cursor-pointer hover:shadow-md active:shadow-none active:translate-y-1 transition-all duration-300" />
-          <IoTrashBinSharp className="hover:text-[#a47485] cursor-pointer hover:shadow-md active:shadow-none active:translate-y-1 transition-all duration-300" />
+          <Link href={`/users/${user.id}`}>
+            <ImCog className="hover:text-[#a47485] hover:scale-125  cursor-pointer active:translate-y-1 transition-all duration-300" />
+          </Link>
+          <DeleteButton handleClick={deleteTargetUser} />
         </div>
       </TableCol>
     </div>

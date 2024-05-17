@@ -7,8 +7,16 @@ import { redirect } from "next/navigation";
 import { RegisterSchema } from "@/lib/zod";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore/lite";
+import { useCurrentUser } from "@/context/CurrentUserContext";
+import toast from "react-hot-toast";
 
 export default function SignUp() {
+  const { currentUser }: any = useCurrentUser();
+
+  if (currentUser) {
+    redirect("/settings");
+  }
+
   async function handleSignup(e: React.FormEvent<HTMLFormElement>) {
     try {
       e.preventDefault();
@@ -32,7 +40,10 @@ export default function SignUp() {
           validatedData.data.email,
           validatedData.data.password
         );
+        if (!newUser) toast.error("User already exists");
+
         await setDoc(doc(db, "users", validatedData.data.email), {
+          id: newUser?.user.uid,
           name: validatedData.data.name,
           phone: validatedData.data.phone,
           email: validatedData.data.email,
@@ -40,6 +51,7 @@ export default function SignUp() {
           role: "user",
         });
 
+        if (newUser) toast.success("Your account successfully created!");
         const tokenID = await newUser?.user.getIdToken();
         setCookie("user", tokenID!);
         redirect("/settings");
@@ -47,7 +59,8 @@ export default function SignUp() {
 
       if (validatedData.error) {
         validatedData.error.errors.map((error) =>
-          console.log(error.path[0], ":", error.message)
+         { toast.error(`${error.path[0]} : ${error.message}`);
+          console.log(error.path[0], ":", error.message)}
         );
       }
       console.log(newUser);

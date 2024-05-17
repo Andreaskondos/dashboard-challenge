@@ -9,5 +9,5 @@ export default async function CreateUser() {
     redirect("/");
   }
 
-  return <CreateUserForm />;
+  return <CreateUserForm login={false} />;
 }

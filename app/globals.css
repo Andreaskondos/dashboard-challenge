@@ -18,7 +18,9 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
 
+@layer components {
   .shapes {
     width: 8rem;
     height: 8rem;

@@ -2,10 +2,12 @@ export default function Form({
   children,
   scroll = false,
   onSubmit,
+  ref,
 }: {
   children?: React.ReactNode;
   scroll?: boolean;
   onSubmit?: React.FormEventHandler<HTMLFormElement>;
+  ref?: React.RefObject<HTMLFormElement>;
 }) {
   return (
     <form

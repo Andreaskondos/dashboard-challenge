@@ -23,7 +23,7 @@ export default function Loading() {
     //   {/* <span class="sr-only">Loading...</span> */}
     // </div>
     <div className="flex justify-center items-center h-full w-full">
-      <div class="shapes"></div>
+      <div className="shapes"></div>
     </div>
   );
 }

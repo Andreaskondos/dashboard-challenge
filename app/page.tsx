@@ -1,15 +1,13 @@
-"use client";
-
-import { useCurrentUser } from "@/context/CurrentUserContext";
+import { getCurrentUser } from "@/lib/actions";
 import { redirect } from "next/navigation";
 
-export default function Home() {
-  const { currentUser }: any = useCurrentUser();
+export default async function Home() {
+  const currentUser = await getCurrentUser();
 
-  if (currentUser) {
-    redirect("/settings");
-  } else {
+  if (!currentUser) {
     redirect("/login");
+  } else {
+    redirect("/settings");
   }
 
   return null;
